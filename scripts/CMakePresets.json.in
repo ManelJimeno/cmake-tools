@@ -1,0 +1,97 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+      "major": 3,
+      "minor": 22,
+      "patch": 3
+  },
+  "configurePresets": [
+      {
+          "name": "default",
+          "hidden": true,
+          "displayName": "Default Debug Config",
+          "description": "Default build using Ninja generator",
+          "generator": "Ninja",
+          "binaryDir": "${sourceDir}/out/build/${presetName}",
+          "cacheVariables": {
+              "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+              "CMAKE_BUILD_TYPE": "$env{BUILD_TYPE}"
+          },
+          "condition": {
+              "type": "equals",
+              "lhs": "${hostSystemName}",
+              "rhs": "$env{FILTER_OS}"
+          },
+          "environment": {
+              @project_environment@
+          }
+      },
+      {
+          "name": "windows",
+          "displayName": "Default Windows Config",
+          "description": "Default Windows build using Ninja generator",
+          "inherits": [
+              "default"
+          ],
+          "cacheVariables": {
+              "GSTREAMER_TOOLS": "ON",
+              "CMAKE_CXX_COMPILER": "cl"
+          },
+          "environment": {
+              "FILTER_OS": "Windows"
+          }
+      },
+      {
+          "name": "macOS",
+          "displayName": "Default macOS Config",
+          "description": "Default macOS build using Ninja generator",
+          "inherits": [
+              "default"
+          ],
+          "cacheVariables": {
+              "GSTREAMER_TOOLS": "ON",
+              "CONAN_BUILD_MISSING": "ON"
+          },
+          "environment": {
+              "FILTER_OS": "Darwin"
+          }
+      },
+      {
+          "name": "Linux",
+          "displayName": "Default Linux Config",
+          "description": "Default Linux build using Ninja generator",
+          "inherits": [
+              "default"
+          ],
+          "cacheVariables": {
+              "GSTREAMER_TOOLS": "ON"
+          },
+          "environment": {
+              "FILTER_OS": "Linux"
+          }
+      }
+  ],
+  "buildPresets": [
+      {
+          "name": "windows-debug",
+          "configurePreset": "windows",
+          "environment": {
+              "BUILD_TYPE": "Debug"
+          }
+      },
+      {
+          "name": "macOS-debug",
+          "configurePreset": "macOS",
+          "environment": {
+              "BUILD_TYPE": "Debug"
+          }
+      },
+      {
+          "name": "Linux-debug",
+          "configurePreset": "Linux",
+          "environment": {
+              "BUILD_TYPE": "Debug"
+          }
+      }
+  ]
+}

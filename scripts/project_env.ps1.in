@@ -1,0 +1,11 @@
+
+$env:CONAN_OLD_conanbuildenv_LIB=$env:LIB
+$env:CONAN_OLD_conanbuildenv_PATH=$env:PATH
+
+@project_environment@
+
+function global:_old_conan_conanbuildenv_prompt {""}
+$function:_old_conan_conanbuildenv_prompt = $function:prompt
+function global:prompt {
+    write-host "(buildenv) " -nonewline; & $function:_old_conan_conanbuildenv_prompt
+}

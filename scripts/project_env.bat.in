@@ -1,0 +1,8 @@
+@echo off
+
+@project_environment@
+
+SET "@CMAKE_PROJECT_NAME@_OLD_PROMPT=%PROMPT%"
+SET "PROMPT=(buildenv) %PROMPT%"
+
+%1

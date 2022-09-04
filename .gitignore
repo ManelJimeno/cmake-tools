@@ -1,0 +1,10 @@
+# IDE
+.vscode
+.idea
+cmake-build-*
+build*
+
+# OS
+.DS_Store
+*.out
+*.app
