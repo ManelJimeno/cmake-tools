@@ -19,6 +19,7 @@ function(add_cpp_test)
 
     config_target(
         CPP
+        WITH_CONSOLE
         TARGET
         ${CONFIG_TARGET}
         SOURCES
