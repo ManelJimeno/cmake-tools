@@ -239,8 +239,18 @@ endmacro()
 # Download conan module
 if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan/conan.cmake")
     message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
-    file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/0.18.1/conan.cmake"
+    file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/${CONAN_CMAKE_VERSION}/conan.cmake"
          "${CMAKE_BINARY_DIR}/conan/conan.cmake" TLS_VERIFY ON)
 endif()
 include(${CMAKE_BINARY_DIR}/conan/conan.cmake)
+conan_check(VERSION 1.52.0 REQUIRED)
+
+# We don't support Conand version 2.x
+set(CONAN_VERSION "2.0.0")
+string(REGEX MATCH ".*Conan version ([0-9]+\\.[0-9]+\\.[0-9]+)" FOO "${CONAN_VERSION_OUTPUT}")
+if(${CMAKE_MATCH_1} VERSION_GREATER_EQUAL ${CONAN_VERSION})
+    message(FATAL_ERROR "Conan v2 is not supported. Installed: ${CMAKE_MATCH_1}, \
+        required: ${CONAN_VERSION}. Consider downgrading via 'pip \
+        install conan==${CONAN_VERSION}'.")
+endif()
 message(STATUS "Conan module loaded")
